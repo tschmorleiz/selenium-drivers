@@ -1,0 +1,10 @@
+{
+	"seleniumversion": "2.42.2",
+
+	"drivers": [
+		{
+			"arg": "-Dwebdriver.chrome.driver",
+			"path": "chromedriver"
+		}
+	]
+}
