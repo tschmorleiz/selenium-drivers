@@ -1,6 +1,6 @@
 {
   "name": "selenium-drivers",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Selenium standalone with browser drivers",
   "main": "index.js",
   "scripts": {

@@ -4,9 +4,7 @@ var exec = require('child_process').exec;
 
 var config = require('./config.json');
 
-var child;
-
-process.nextTick(function() {
+exports.start = function (callback) {
 	var args = '';
 	console.log('Starting selenium with drivers for:');
 	var drivers = config.drivers || [];
@@ -15,18 +13,15 @@ process.nextTick(function() {
 		args += ' ' + drivers[i].arg + '=' + __dirname +'/lib/drivers/' + drivers[i].path;
 	}
 	var command = 'java -jar ' + __dirname + '/lib/selenium-server-standalone-' + config.seleniumversion + '.jar' + args;
-	child = exec(command, function() {
+	var child = exec(command, function() {
 		console.log(arguments);
 	});
-	child.stdout.on('data', console.log);
-	child.stderr.on('data', console.error);
-});
-
-process.on('exit', die);
-process.on('SIGINT', die);
-process.on('SIGUSR2', die);
-
-function die() {
-	child.kill();
-	process.exit();
-}
+	child.stdout.on('data', function (line) {
+		if (line.indexOf("Started org.openqa.jetty.jetty.Server") != -1) {
+			callback && callback(null, child);
+		}
+	});
+	child.stderr.on('data', function (line) {
+		callback && callback(new Error(line));
+	});
+};
