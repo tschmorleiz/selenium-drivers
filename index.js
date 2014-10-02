@@ -22,10 +22,11 @@ process.nextTick(function() {
 	child.stderr.on('data', console.error);
 });
 
-process.on('exit', function () {
-    child.kill();
-});
+process.on('exit', die);
+process.on('SIGINT', die);
+process.on('SIGUSR2', die);
 
-process.on('SIGINT', function() {
+function die() {
 	child.kill();
-});
+	process.exit();
+}
