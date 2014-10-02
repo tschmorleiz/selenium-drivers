@@ -18,10 +18,7 @@ exports.start = function (callback) {
 	});
 	child.stdout.on('data', function (line) {
 		if (line.indexOf("Started org.openqa.jetty.jetty.Server") != -1) {
-			callback && callback(null, child);
+			callback && callback(undefined, child);
 		}
-	});
-	child.stderr.on('data', function (line) {
-		callback && callback(new Error(line));
 	});
 };
