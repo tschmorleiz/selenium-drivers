@@ -25,3 +25,7 @@ process.nextTick(function() {
 process.on('exit', function () {
     child.kill();
 });
+
+process.on('SIGINT', function() {
+	child.kill();
+});
